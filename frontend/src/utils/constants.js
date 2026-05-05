@@ -2,8 +2,7 @@
 // constants.js — App-wide constants for AI Travel Planner
 // ============================================================
 
-export const API_BASE_URL =
-  import.meta.env.REACT_APP_API_URL || "https://ai-travel-planner-7j0u.onrender.com/api";
+export const API_BASE_URL = "https://ai-travel-planner-7j0u.onrender.com/api";
 
 // ── Auth ────────────────────────────────────────────────────
 export const TOKEN_KEY = "travel_planner_token";
