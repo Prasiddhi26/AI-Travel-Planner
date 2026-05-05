@@ -32,7 +32,7 @@ app.use('/api/', limiter);
 
 // CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://ai-travel-planner-7j0u.onrender.com',
+  origin:  'https://ai-travel-planner-frontend-ay1f.onrender.com',
   credentials: true
 }));
 
