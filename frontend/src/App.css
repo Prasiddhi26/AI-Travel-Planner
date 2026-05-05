@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -34,5 +35,61 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+/* ── Mobile Bottom Nav ── */
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-background-primary, #fff);
+    border-top: 1px solid #e2e8f0;
+    padding: 8px 0;
+    z-index: 1000;
+    justify-content: space-around;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 11px;
+    color: #718096;
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: 8px;
+    transition: color 0.2s;
+  }
+
+  .mobile-nav-link span:first-child {
+    font-size: 20px;
+  }
+
+  .mobile-nav-link.active {
+    color: #4299e1;
+  }
+
+  .mobile-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Add padding so content doesn't hide behind bottom nav */
+  .main-content {
+    padding-bottom: 80px;
   }
 }

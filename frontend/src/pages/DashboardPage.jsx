@@ -29,69 +29,69 @@ const Dashboard = () => {
   const [travelers, setTravelers] = useState(1);
 
   const handleGenerate = async (e) => {
-  e.preventDefault();
-  if (!prompt.trim()) return;
-  setLoading(true);
-  setError("");
-  setItinerary(null);
-  setSaveMsg("");
+    e.preventDefault();
+    if (!prompt.trim()) return;
+    setLoading(true);
+    setError("");
+    setItinerary(null);
+    setSaveMsg("");
 
-  try {
-    const { data } = await axiosInstance.post("/ai/generate-itinerary", {
-      source: source || "Not specified",
-      destination: prompt,
-      numberOfDays: Number(days),
-      budget: Number(budget),
-      travelType: style.toLowerCase(),
-      currency: "INR",
-      numberOfTravelers: Number(travelers),  // ← fixed
-    });
-    setItinerary(data.itinerary);
-  } catch (err) {
-    setError(
-      err.response?.data?.message ||
-        "Failed to generate itinerary. Please try again.",
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const { data } = await axiosInstance.post("/ai/generate-itinerary", {
+        source: source || "Not specified",
+        destination: prompt,
+        numberOfDays: Number(days),
+        budget: Number(budget),
+        travelType: style.toLowerCase(),
+        currency: "INR",
+        numberOfTravelers: Number(travelers), // ← fixed
+      });
+      setItinerary(data.itinerary);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Failed to generate itinerary. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const handleSave = async () => {
-  if (!itinerary) return;
-  setSaving(true);
-  setSaveMsg("");
-  try {
-    await axiosInstance.post("/trips", {
-      title: itinerary.title || `${style} Trip to ${prompt}`,
-      source: source || "Not specified",
-      destination: prompt,
-      numberOfDays: Number(days),
-      budget: Number(budget),
-      travelType: style.toLowerCase(),
-      currency: "INR",
-      numberOfTravelers: Number(travelers),  // ← fixed
-      itinerary: itinerary.itinerary || [],
-      budgetBreakdown: itinerary.budgetBreakdown || {},
-      highlights: itinerary.highlights || [],
-      packingList: itinerary.packingList || [],
-      travelTips: itinerary.travelTips || [],
-      weatherInfo: itinerary.weatherInfo || {},
-      transportOptions: (itinerary.transportOptions || []).map((t) => ({
-        transportType: t.type || t.transportType || "",
-        description: t.description || "",
-        estimatedCost: t.estimatedCost || 0,
-        duration: t.duration || "",
-      })),
-    });
-    setSaveMsg("✅ Trip saved successfully!");
-  } catch (err) {
-    console.log("SAVE ERROR:", err.response?.data);
-    setSaveMsg("❌ Could not save trip. Please try again.");
-  } finally {
-    setSaving(false);
-  }
-};
+  const handleSave = async () => {
+    if (!itinerary) return;
+    setSaving(true);
+    setSaveMsg("");
+    try {
+      await axiosInstance.post("/trips", {
+        title: itinerary.title || `${style} Trip to ${prompt}`,
+        source: source || "Not specified",
+        destination: prompt,
+        numberOfDays: Number(days),
+        budget: Number(budget),
+        travelType: style.toLowerCase(),
+        currency: "INR",
+        numberOfTravelers: Number(travelers), // ← fixed
+        itinerary: itinerary.itinerary || [],
+        budgetBreakdown: itinerary.budgetBreakdown || {},
+        highlights: itinerary.highlights || [],
+        packingList: itinerary.packingList || [],
+        travelTips: itinerary.travelTips || [],
+        weatherInfo: itinerary.weatherInfo || {},
+        transportOptions: (itinerary.transportOptions || []).map((t) => ({
+          transportType: t.type || t.transportType || "",
+          description: t.description || "",
+          estimatedCost: t.estimatedCost || 0,
+          duration: t.duration || "",
+        })),
+      });
+      setSaveMsg("✅ Trip saved successfully!");
+    } catch (err) {
+      console.log("SAVE ERROR:", err.response?.data);
+      setSaveMsg("❌ Could not save trip. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div className="app-layout">
@@ -383,6 +383,25 @@ const handleSave = async () => {
           </div>
         )}
       </main>
+      {/* ── Mobile Bottom Nav ── */}
+      <nav className="mobile-nav">
+        <Link to="/dashboard" className="mobile-nav-link active">
+          <span>🏠</span>
+          <span>Home</span>
+        </Link>
+        <Link to="/saved-trips" className="mobile-nav-link">
+          <span>💾</span>
+          <span>Trips</span>
+        </Link>
+        <Link to="/profile" className="mobile-nav-link">
+          <span>👤</span>
+          <span>Profile</span>
+        </Link>
+        <button onClick={logout} className="mobile-nav-link mobile-nav-btn">
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+      </nav>
     </div>
   );
 };
